@@ -1,5 +1,5 @@
 const API_CONFIG = {
-  BASE_URL: "http://localhost:8080/api",
+  BASE_URL: process.env.BACKEND_API_URL || "http://localhost:8080/api", // Use environment variable or default
   ENDPOINTS: {
     EMPLOYEES: "/employees",
     // Add other endpoints here as needed
