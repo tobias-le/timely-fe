@@ -51,21 +51,9 @@ const Dashboard: React.FC = () => {
           <div className="flex items-center space-x-4">
             <Button color="inherit">Attendance</Button>
             <Button color="inherit">
-              Overtime{" "}
-              <span className="ml-1 px-1 bg-red-500 rounded-full text-xs">
-                12
-              </span>
-            </Button>
-            <Button color="inherit">
               Time Off{" "}
               <span className="ml-1 px-1 bg-red-500 rounded-full text-xs">
                 50
-              </span>
-            </Button>
-            <Button color="inherit">
-              Shift Schedule{" "}
-              <span className="ml-1 px-1 bg-red-500 rounded-full text-xs">
-                1
               </span>
             </Button>
             <Button color="inherit">Work Time</Button>
