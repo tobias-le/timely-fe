@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,17 +9,37 @@ import {
   Box,
   Paper,
 } from "@mui/material";
-import {
-  Add,
-  Search,
-  Notifications,
-  ArrowBack,
-  ArrowForward,
-} from "@mui/icons-material";
+import { Add, Search, Notifications } from "@mui/icons-material";
 import AttendanceSummary from "./AttendanceSummary";
 import EmployeeTable from "./EmployeeTable";
+import { format, startOfWeek, addDays } from "date-fns";
+import ApiService from "../services/api.service";
+import { TeamAttendanceDetail } from "../types/attendance";
+import AttendanceDetailsModal from "./AttendanceDetailsModal";
 
 const Dashboard: React.FC = () => {
+  const monday = startOfWeek(new Date(), { weekStartsOn: 1 });
+  const mondayDate = format(monday, "EEEE, d MMMM");
+  const fridayDate = format(addDays(monday, 4), "EEEE, d MMMM");
+  const weekDates = `${mondayDate} - ${fridayDate}`;
+
+  const [details, setDetails] = useState<TeamAttendanceDetail[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+
+  const handleAttendanceReportClick = () => {
+    setModalOpen(true);
+    setDetailsLoading(true);
+    ApiService.getTeamAttendanceDetails(1) // You might want to pass teamId as a prop
+      .then((data) => {
+        setDetails(data);
+      })
+      .catch((error) =>
+        console.error("Error fetching attendance details:", error)
+      )
+      .finally(() => setDetailsLoading(false));
+  };
+
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       <AppBar position="static" className="bg-gray-900">
@@ -76,18 +96,12 @@ const Dashboard: React.FC = () => {
               <Typography variant="h5" className="font-bold">
                 Attendance
               </Typography>
-              <div className="flex items-center space-x-2">
-                <IconButton size="small">
-                  <ArrowBack />
-                </IconButton>
-                <Typography>Monday, 15 October</Typography>
-                <IconButton size="small">
-                  <ArrowForward />
-                </IconButton>
-              </div>
+              <Typography>{weekDates}</Typography>
             </div>
             <div className="flex space-x-2">
-              <Button variant="outlined">Attendance Report</Button>
+              <Button variant="outlined" onClick={handleAttendanceReportClick}>
+                Attendance Report
+              </Button>
               <Button variant="contained" color="primary">
                 Add Attendance
               </Button>
@@ -108,6 +122,13 @@ const Dashboard: React.FC = () => {
           </div>
 
           <EmployeeTable />
+
+          <AttendanceDetailsModal
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            details={details}
+            loading={detailsLoading}
+          />
         </Paper>
       </Box>
     </div>
