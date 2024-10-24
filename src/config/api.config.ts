@@ -1,5 +1,5 @@
 const API_CONFIG = {
-  BASE_URL: process.env.BACKEND_API_URL || "http://localhost:8080", // Ensure this is correct
+  BASE_URL: "https://timely-be-test.up.railway.app/", // Ensure this is correct
   ENDPOINTS: {
     EMPLOYEES: "/api/employees",
     ATTENDANCE_SUMMARY: "/api/attendance/summary", // Ensure this matches your backend
