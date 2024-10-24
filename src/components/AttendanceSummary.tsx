@@ -46,34 +46,8 @@ const AttendanceSummary: React.FC = () => {
 
   return (
     <>
-      <FormControl
-        className="mb-6"
-        fullWidth
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            backgroundColor: "white",
-            borderRadius: "8px",
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#EAB308", // yellow-500
-            },
-            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: "#EAB308",
-            },
-          },
-          "& .MuiInputLabel-root": {
-            color: "gray",
-            "&.Mui-focused": {
-              color: "#EAB308",
-            },
-          },
-          "& .MuiSelect-icon": {
-            color: "#4B5563", // gray-600
-          },
-        }}
-      >
-        <InputLabel sx={{ backgroundColor: "white", px: 1 }}>
-          Select Team
-        </InputLabel>
+      <FormControl fullWidth>
+        <InputLabel>Select Team</InputLabel>
         <Select
           value={teamId}
           onChange={(e) => setTeamId(e.target.value as number)}
@@ -94,7 +68,7 @@ const AttendanceSummary: React.FC = () => {
         summaryData && (
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
-              <Paper>
+              <Paper className="rounded-lg mt-5">
                 <div className="p-4">
                   <Typography variant="subtitle1" className="text-gray-500">
                     Total Hours
@@ -106,7 +80,7 @@ const AttendanceSummary: React.FC = () => {
               </Paper>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Paper>
+              <Paper className="rounded-lg mt-5">
                 <div className="p-4">
                   <Typography variant="subtitle1" className="text-gray-500">
                     Average Hours/Day
@@ -118,7 +92,7 @@ const AttendanceSummary: React.FC = () => {
               </Paper>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Paper>
+              <Paper className="rounded-lg mt-5">
                 <div className="p-4">
                   <Typography variant="subtitle1" className="text-gray-500">
                     Attendance Rate

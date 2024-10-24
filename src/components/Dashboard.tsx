@@ -1,21 +1,12 @@
 import React, { useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Button,
-  TextField,
-  Box,
-  Paper,
-} from "@mui/material";
-import { Add, Search, Notifications } from "@mui/icons-material";
+import { Box, Paper, Typography, Button, TextField } from "@mui/material";
 import AttendanceSummary from "./AttendanceSummary";
 import EmployeeTable from "./EmployeeTable";
 import { format, startOfWeek, addDays } from "date-fns";
 import ApiService from "../services/api.service";
 import { TeamAttendanceDetail } from "../types/attendance";
 import AttendanceDetailsModal from "./AttendanceDetailsModal";
+import Header from "./Header"; // Import the new Header component
 
 const Dashboard: React.FC = () => {
   const monday = startOfWeek(new Date(), { weekStartsOn: 1 });
@@ -42,41 +33,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <AppBar position="static" className="bg-gray-900">
-        <Toolbar>
-          <Typography variant="h6" className="flex-grow">
-            <span className="font-bold text-yellow-400">time.ly</span> Time
-            Management
-          </Typography>
-          <div className="flex items-center space-x-4">
-            <Button color="inherit">Attendance</Button>
-            <Button color="inherit">
-              Time Off{" "}
-              <span className="ml-1 px-1 bg-red-500 rounded-full text-xs">
-                50
-              </span>
-            </Button>
-            <Button color="inherit">Work Time</Button>
-          </div>
-          <IconButton color="inherit" className="ml-4">
-            <Add />
-          </IconButton>
-          <IconButton color="inherit">
-            <Search />
-          </IconButton>
-          <IconButton color="inherit">
-            <Notifications />
-          </IconButton>
-          <IconButton color="inherit">
-            <img
-              src="/placeholder.svg"
-              alt="User"
-              className="w-8 h-8 rounded-full"
-            />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-
+      <Header />
       <Box className="flex-grow p-6">
         <Paper className="p-6">
           <div className="flex justify-between items-center mb-6">
@@ -90,7 +47,7 @@ const Dashboard: React.FC = () => {
               <Button variant="outlined" onClick={handleAttendanceReportClick}>
                 Attendance Report
               </Button>
-              <Button variant="contained" color="primary">
+              <Button variant="outlined" className="addAttendance">
                 Add Attendance
               </Button>
             </div>

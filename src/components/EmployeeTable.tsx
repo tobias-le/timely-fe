@@ -63,7 +63,7 @@ const EmployeeTable: React.FC = () => {
   }
 
   return (
-    <TableContainer component={Paper} className="m-4 shadow-lg">
+    <TableContainer component={Paper} className="mt-5 shadow-lg">
       <Table sx={{ minWidth: 650 }} aria-label="employee table">
         <TableHead>
           <TableRow className="bg-gray-50">

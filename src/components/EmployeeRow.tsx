@@ -52,7 +52,16 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({ employee, onClick }) => (
     <TableCell>
       <div className="flex gap-1 flex-wrap">
         {employee.currentProjects?.map((project, idx) => (
-          <Chip key={idx} label={project} size="small" />
+          <Chip
+            key={idx}
+            label={project}
+            size="small"
+            sx={{
+              bgcolor: stringToColor(project),
+              color: "white",
+              textShadow: "1px 1px 10px lightgray",
+            }}
+          />
         ))}
       </div>
     </TableCell>
