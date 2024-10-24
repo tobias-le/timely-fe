@@ -16,21 +16,11 @@ interface Employee {
   note: string;
 }
 
-interface PaginatedResponse<T> {
-  content: T[];
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-  };
-  totalElements: number;
-  totalPages: number;
-}
-
 class ApiService {
-  private static async fetchWithConfig<T>(
+  private static async fetchWithConfig(
     endpoint: string,
     options?: RequestInit
-  ) {
+  ): Promise<any> {
     const url = `${API_CONFIG.BASE_URL}${endpoint}`;
     const defaultOptions: RequestInit = {
       headers: API_CONFIG.HEADERS,
@@ -50,42 +40,40 @@ class ApiService {
   }
 
   public static async getEmployees(): Promise<Employee[]> {
-    const response = await this.fetchWithConfig<PaginatedResponse<Employee>>(
-      API_CONFIG.ENDPOINTS.EMPLOYEES
-    );
-    return response.content;
+    const response = await this.fetchWithConfig(API_CONFIG.ENDPOINTS.EMPLOYEES);
+    return response.content as Employee[];
   }
 
   public static async getAttendanceSummary(): Promise<SummaryItemProps[]> {
-    return this.fetchWithConfig<SummaryItemProps[]>(
+    return this.fetchWithConfig(
       API_CONFIG.ENDPOINTS.ATTENDANCE_SUMMARY
-    );
+    ) as Promise<SummaryItemProps[]>;
   }
 
   public static async getAttendanceDetails(): Promise<AttendanceDetail[]> {
-    return this.fetchWithConfig<AttendanceDetail[]>(
+    return this.fetchWithConfig(
       API_CONFIG.ENDPOINTS.ATTENDANCE_DETAILS
-    );
+    ) as Promise<AttendanceDetail[]>;
   }
 
   public static async getTeamAttendanceSummary(
     teamId: number
   ): Promise<TeamSummary> {
-    return this.fetchWithConfig<TeamSummary>(
+    return this.fetchWithConfig(
       `/api/attendance/team/${teamId}/summary`
-    );
+    ) as Promise<TeamSummary>;
   }
 
   public static async getTeams(): Promise<Team[]> {
-    return this.fetchWithConfig<Team[]>("/api/teams");
+    return this.fetchWithConfig("/api/teams") as Promise<Team[]>;
   }
 
   public static async getTeamAttendanceDetails(
     teamId: number
   ): Promise<TeamAttendanceDetail[]> {
-    return this.fetchWithConfig<TeamAttendanceDetail[]>(
-      `/api/attendance/team/${teamId}`
-    );
+    return this.fetchWithConfig(`/api/attendance/team/${teamId}`) as Promise<
+      TeamAttendanceDetail[]
+    >;
   }
 
   // Add other API methods here
