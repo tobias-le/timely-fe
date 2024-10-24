@@ -9,12 +9,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import ApiService from "../services/api.service"; // Import ApiService
-import {
-  TeamSummary,
-  AttendanceDetail,
-  Team,
-  TeamAttendanceDetail,
-} from "../types/attendance"; // Import from the new location
+import { TeamSummary, Team } from "../types/attendance"; // Import from the new location
 import CircularProgress from "@mui/material/CircularProgress";
 
 const AttendanceSummary: React.FC = () => {
@@ -45,9 +40,9 @@ const AttendanceSummary: React.FC = () => {
     }
   }, [teamId]);
 
-  const handleTeamChange = (event: any) => {
-    setTeamId(event.target.value);
-  };
+  //   const handleTeamChange = (event: any) => {
+  //     setTeamId(event.target.value);
+  //   };
 
   return (
     <>
