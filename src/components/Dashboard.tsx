@@ -11,25 +11,29 @@ import Header from "./Header"; // Import the new Header component
 const Dashboard: React.FC = () => {
   const monday = startOfWeek(new Date(), { weekStartsOn: 1 });
   const mondayDate = format(monday, "EEEE, d MMMM");
-  const fridayDate = format(addDays(monday, 4), "EEEE, d MMMM");
-  const weekDates = `${mondayDate} - ${fridayDate}`;
+  const sundayDate = format(addDays(monday, 6), "EEEE, d MMMM");
+  const weekDates = `${mondayDate} - ${sundayDate}`;
 
   const [details, setDetails] = useState<TeamAttendanceDetail[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [detailsLoading, setDetailsLoading] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState<number>(1);
 
   const handleAttendanceReportClick = () => {
     setModalOpen(true);
     setDetailsLoading(true);
-    ApiService.getTeamAttendanceDetails(1) // You might want to pass teamId as a prop
+    ApiService.getTeamAttendanceDetails(selectedTeamId)
       .then((data) => {
         setDetails(data);
-        console.log(data);
       })
       .catch((error) =>
         console.error("Error fetching attendance details:", error)
       )
       .finally(() => setDetailsLoading(false));
+  };
+
+  const handleTeamChange = (teamId: number) => {
+    setSelectedTeamId(teamId);
   };
 
   return (
@@ -54,7 +58,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          <AttendanceSummary />
+          <AttendanceSummary onTeamChange={handleTeamChange} />
 
           <div className="mt-6 flex space-x-4">
             <TextField
@@ -67,7 +71,7 @@ const Dashboard: React.FC = () => {
             <Button variant="outlined">Advance Filter</Button>
           </div>
 
-          <EmployeeTable />
+          <EmployeeTable teamId={selectedTeamId} />
 
           <AttendanceDetailsModal
             open={modalOpen}

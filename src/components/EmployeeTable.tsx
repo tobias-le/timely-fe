@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -9,13 +9,18 @@ import {
   Paper,
   CircularProgress,
   Alert,
+  Typography,
 } from "@mui/material";
 import { Employee } from "../types/employee";
 import ApiService from "../services/api.service";
 import EmployeeDetailsModal from "./EmployeeDetailsModal";
 import EmployeeRow from "./EmployeeRow";
 
-const EmployeeTable: React.FC = () => {
+interface EmployeeTableProps {
+  teamId: number;
+}
+
+const EmployeeTable: React.FC<EmployeeTableProps> = ({ teamId }) => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,20 +28,22 @@ const EmployeeTable: React.FC = () => {
     null
   );
 
-  useEffect(() => {
-    fetchEmployees();
-  }, []);
-
-  const fetchEmployees = async () => {
+  const fetchEmployees = useCallback(async () => {
     try {
-      const data = await ApiService.getEmployees();
+      const data = await ApiService.getEmployees(teamId);
       setEmployees(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
-  };
+  }, [teamId]);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    fetchEmployees();
+  }, [fetchEmployees]);
 
   const handleEmployeeClick = (employee: Employee) => {
     setSelectedEmployee(employee);
@@ -59,6 +66,16 @@ const EmployeeTable: React.FC = () => {
       <Alert severity="error" className="m-4">
         {error}
       </Alert>
+    );
+  }
+
+  if (!employees.length) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Typography variant="h6" color="textSecondary">
+          No employees are on this team yet
+        </Typography>
+      </div>
     );
   }
 

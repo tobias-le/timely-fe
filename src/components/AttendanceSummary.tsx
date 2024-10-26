@@ -12,11 +12,18 @@ import ApiService from "../services/api.service"; // Import ApiService
 import { TeamSummary, Team } from "../types/attendance"; // Import from the new location
 import CircularProgress from "@mui/material/CircularProgress";
 
-const AttendanceSummary: React.FC = () => {
+interface AttendanceSummaryProps {
+  onTeamChange: (teamId: number) => void;
+}
+
+const AttendanceSummary: React.FC<AttendanceSummaryProps> = ({
+  onTeamChange,
+}) => {
   const [teamId, setTeamId] = useState<number>(1);
   const [teams, setTeams] = useState<Team[]>([]);
   const [summaryData, setSummaryData] = useState<TeamSummary | null>(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     ApiService.getTeams()
@@ -31,14 +38,33 @@ const AttendanceSummary: React.FC = () => {
 
   useEffect(() => {
     if (teamId) {
+      setIsDisabled(true);
+      onTeamChange(teamId);
       setSummaryLoading(true);
       setSummaryData(null);
-      ApiService.getTeamAttendanceSummary(teamId)
-        .then((data) => setSummaryData(data))
-        .catch((error) => console.error("Error fetching summary data:", error))
-        .finally(() => setSummaryLoading(false));
+
+      const timeoutId = setTimeout(() => {
+        setIsDisabled(false);
+      }, 5000);
+
+      const fetchData = async () => {
+        try {
+          const data = await ApiService.getTeamAttendanceSummary(teamId);
+          setSummaryData(data);
+        } catch (error) {
+          console.error("Error fetching summary data:", error);
+        } finally {
+          setSummaryLoading(false);
+          setIsDisabled(false);
+          clearTimeout(timeoutId);
+        }
+      };
+
+      fetchData();
+
+      return () => clearTimeout(timeoutId);
     }
-  }, [teamId]);
+  }, [teamId, onTeamChange]);
 
   //   const handleTeamChange = (event: any) => {
   //     setTeamId(event.target.value);
@@ -51,6 +77,7 @@ const AttendanceSummary: React.FC = () => {
         <Select
           value={teamId}
           onChange={(e) => setTeamId(e.target.value as number)}
+          disabled={isDisabled}
         >
           {teams.map((team) => (
             <MenuItem key={team.teamId} value={team.teamId}>

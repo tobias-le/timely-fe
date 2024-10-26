@@ -39,8 +39,10 @@ class ApiService {
     }
   }
 
-  public static async getEmployees(): Promise<Employee[]> {
-    const response = await this.fetchWithConfig(API_CONFIG.ENDPOINTS.EMPLOYEES);
+  public static async getEmployees(teamId: number): Promise<Employee[]> {
+    const response = await this.fetchWithConfig(
+      `${API_CONFIG.ENDPOINTS.EMPLOYEES}?teamId=${teamId}`
+    );
     return response.content as Employee[];
   }
 
