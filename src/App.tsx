@@ -1,15 +1,18 @@
 import React from "react";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { theme } from "./styles/theme";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
+import WorkTime from "./components/WorkTime";
+import TimeOff from "./components/TimeOff";
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Dashboard />
-    </ThemeProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/work-time" element={<WorkTime />} />
+        <Route path="/time-off" element={<TimeOff />} />
+      </Routes>
+    </Router>
   );
 };
 
