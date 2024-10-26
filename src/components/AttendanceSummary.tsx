@@ -71,10 +71,10 @@ const AttendanceSummary: React.FC = () => {
               <Paper className="rounded-lg mt-5">
                 <div className="p-4">
                   <Typography variant="subtitle1" className="text-gray-500">
-                    Total Hours
+                    Total Hours / Expected Hours
                   </Typography>
                   <Typography variant="h4" className="font-bold">
-                    {summaryData.totalHours}
+                    {summaryData.totalHours} / {summaryData.expectedHours}
                   </Typography>
                 </div>
               </Paper>
@@ -86,7 +86,7 @@ const AttendanceSummary: React.FC = () => {
                     Average Hours/Day
                   </Typography>
                   <Typography variant="h4" className="font-bold">
-                    {summaryData.averageHoursPerDay}
+                    {summaryData.averageHoursPerDay.toFixed(1)}
                   </Typography>
                 </div>
               </Paper>
@@ -98,7 +98,7 @@ const AttendanceSummary: React.FC = () => {
                     Attendance Rate
                   </Typography>
                   <Typography variant="h4" className="font-bold">
-                    {summaryData.attendanceRate}%
+                    {summaryData.attendanceRate.toFixed(1)}%
                   </Typography>
                 </div>
               </Paper>

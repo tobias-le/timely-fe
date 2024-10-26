@@ -2,6 +2,7 @@ import React from "react";
 import { TableRow, TableCell, Avatar, Chip } from "@mui/material";
 import { Employee } from "../types/employee";
 import { stringToColor } from "../utils/colorUtils";
+import { createProjectChip } from "../utils/chipUtils";
 
 interface EmployeeRowProps {
   employee: Employee;
@@ -52,16 +53,7 @@ const EmployeeRow: React.FC<EmployeeRowProps> = ({ employee, onClick }) => (
     <TableCell>
       <div className="flex gap-1 flex-wrap">
         {employee.currentProjects?.map((project, idx) => (
-          <Chip
-            key={idx}
-            label={project}
-            size="small"
-            sx={{
-              bgcolor: stringToColor(project),
-              color: "white",
-              textShadow: "1px 1px 10px lightgray",
-            }}
-          />
+          <Chip key={idx} {...createProjectChip(project)} />
         ))}
       </div>
     </TableCell>

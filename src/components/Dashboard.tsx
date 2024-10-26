@@ -24,6 +24,7 @@ const Dashboard: React.FC = () => {
     ApiService.getTeamAttendanceDetails(1) // You might want to pass teamId as a prop
       .then((data) => {
         setDetails(data);
+        console.log(data);
       })
       .catch((error) =>
         console.error("Error fetching attendance details:", error)

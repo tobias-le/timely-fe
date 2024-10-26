@@ -10,7 +10,8 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Employee } from "../types/employee";
-import { stringToColor } from "../utils/colorUtils"; // Import the utility function
+import { stringToColor } from "../utils/colorUtils";
+import { createProjectChip } from "../utils/chipUtils";
 
 interface EmployeeDetailsModalProps {
   selectedEmployee: Employee | null;
@@ -86,7 +87,7 @@ const EmployeeDetailsModal: React.FC<EmployeeDetailsModalProps> = ({
             </Typography>
             <div className="flex gap-1 flex-wrap mt-1">
               {selectedEmployee.currentProjects?.map((project, idx) => (
-                <Chip key={idx} label={project} size="small" />
+                <Chip key={idx} {...createProjectChip(project)} />
               ))}
             </div>
           </div>

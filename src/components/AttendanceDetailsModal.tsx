@@ -12,9 +12,11 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Chip,
 } from "@mui/material";
 import { TeamAttendanceDetail } from "../types/attendance";
 import CircularProgress from "@mui/material/CircularProgress";
+import { createProjectChip } from "../utils/chipUtils";
 
 interface AttendanceDetailsModalProps {
   open: boolean;
@@ -50,22 +52,24 @@ const AttendanceDetailsModal: React.FC<AttendanceDetailsModalProps> = ({
               <TableHead>
                 <TableRow>
                   <TableCell>Employee Name</TableCell>
-                  <TableCell>Job Title</TableCell>
                   <TableCell>Date</TableCell>
                   <TableCell>Clock In</TableCell>
                   <TableCell>Clock Out</TableCell>
+                  <TableCell>Project</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {details.map((detail) => (
                   <TableRow key={detail.attendanceId}>
-                    <TableCell>{detail.member.name}</TableCell>
-                    <TableCell>{detail.member.jobTitle}</TableCell>
+                    <TableCell>{detail.member}</TableCell>
                     <TableCell>
                       {new Date(detail.date).toLocaleDateString()}
                     </TableCell>
                     <TableCell>{formatDateTime(detail.clockInTime)}</TableCell>
                     <TableCell>{formatDateTime(detail.clockOutTime)}</TableCell>
+                    <TableCell>
+                      <Chip {...createProjectChip(detail.project)} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

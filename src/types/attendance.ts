@@ -10,6 +10,7 @@ export interface SummaryItemProps {
 export interface TeamSummary {
   teamName: string;
   totalHours: number;
+  expectedHours: number;
   averageHoursPerDay: number;
   attendanceRate: number;
 }
@@ -36,14 +37,9 @@ export interface Team {
 
 export interface TeamAttendanceDetail {
   attendanceId: number;
-  team: {
-    id: number;
-    name: string;
-    manager: Employee;
-    members: Employee[];
-  };
-  member: Employee;
+  member: string;
   date: string;
   clockInTime: string;
   clockOutTime: string;
+  project: string;
 }
